@@ -1,13 +1,12 @@
 
 public class Puntuacion {
 	private int puntos;
-	private boolean ventaja;
-	private int sets;
 	private int juegos;
+	private int sets;
+	
 	
 	public Puntuacion() {
 		this.puntos = 0;
-		this.ventaja = false;
 		this.sets = 0;
 		this.juegos = 0;
 	}
@@ -61,5 +60,21 @@ public class Puntuacion {
 	
 	public void reiniciarPuntos() {
 		this.puntos = 0;
+	}
+	
+	public void incrementarJuegos() {
+		this.juegos += 1;
+	}
+	
+	public void reiniciarJuegos() {
+		this.juegos = 0;
+	}
+	
+	public void incrementarSets() {
+		this.sets += 1;
+	}
+	
+	public void reiniciarSets() {
+		this.sets = 0;
 	}
 }
