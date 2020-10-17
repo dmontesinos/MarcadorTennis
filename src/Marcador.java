@@ -144,7 +144,7 @@ public class Marcador {
 						this.tie = true;
 						//FALTA FUNCIONALIDAD TIE
 					} else {
-						if(this.jugador1.getJuegos() < 5 && this.jugador2.getJuegos() < 5) {
+						if(this.jugador1.getJuegos() <= 5 && this.jugador2.getJuegos() <= 5) {
 							this.jugador2.incrementarJuegos();
 						}
 					}

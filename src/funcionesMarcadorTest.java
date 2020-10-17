@@ -187,6 +187,25 @@ class funcionesMarcadorTest {
 	
 	
 	
+	@Test
+	void comprobarIncrementoJuegosTIE() {
+		miMarcadorTest.incrementarJuegosJug1();
+		miMarcadorTest.incrementarJuegosJug2();
+		miMarcadorTest.incrementarJuegosJug1();
+		miMarcadorTest.incrementarJuegosJug2();
+		miMarcadorTest.incrementarJuegosJug1();
+		miMarcadorTest.incrementarJuegosJug2();
+		miMarcadorTest.incrementarJuegosJug1();
+		miMarcadorTest.incrementarJuegosJug2();
+		miMarcadorTest.incrementarJuegosJug1();
+		miMarcadorTest.incrementarJuegosJug2();
+		miMarcadorTest.incrementarJuegosJug1();
+		miMarcadorTest.incrementarJuegosJug2();
+		
+		//assertEquals(6, miMarcadorTest.proxyGetJuegosJug2());
+		//assertEquals(6, miMarcadorTest.proxyGetJuegosJug2());
+	}
+	
 	//@Test
 	void comprobarIncrementoSetsTIE() {
 		
