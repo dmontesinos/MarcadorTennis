@@ -4,12 +4,14 @@ public class Marcador {
 	private int ventaja;
 	private Puntuacion jugador1;
 	private Puntuacion jugador2;
+	private boolean tie;
 	
 	public Marcador() {
 		this.sacaJug1 = true;
 		this.jugador1 = new Puntuacion();
 		this.jugador2 = new Puntuacion();
 		this.ventaja = 0;
+		this.tie = false;
 	}
 
 	public boolean getSacaJug1() {
@@ -28,7 +30,7 @@ public class Marcador {
 	}
 	
 	public void incrementarPuntosJug1() {
-		if(this.comprobarIguales()) {
+		if(this.comprobarPuntosIguales()) {
 			if(this.ventaja == 0) {
 				this.ventaja = 1;
 			} else {
@@ -50,7 +52,7 @@ public class Marcador {
 	}
 	
 	public void incrementarPuntosJug2() {
-		if(this.comprobarIguales()) {
+		if(this.comprobarPuntosIguales()) {
 			if(this.ventaja == 0) {
 				this.ventaja = 2;
 			} else {
@@ -71,7 +73,7 @@ public class Marcador {
 		}
 	}
 	
-	public boolean comprobarIguales() {
+	public boolean comprobarPuntosIguales() {
 		if((this.getPuntosJug1() == this.getPuntosJug2()) && (this.getPuntosJug1() == 40)) {
 			return true;
 		} else {
@@ -79,23 +81,91 @@ public class Marcador {
 		}
 	}
 	
+
+	
 	public void reiniciarPuntuacion() {
 		this.jugador1.reiniciarPuntos();
 		this.jugador2.reiniciarPuntos();
 	}
 	
 	public void incrementarJuegosJug1() {
-		this.jugador1.incrementarJuegos();
+		if(this.jugador1.getJuegos() == 5 && this.jugador2.getJuegos() < 5) {
+			this.jugador1.incrementarSets();
+			this.reiniciarJuegos();
+		} else {
+			if(this.jugador1.getJuegos() > 4 
+					&& this.jugador2.getJuegos() > 4 
+					&& this.comprobarDiferenciaJuegos() == 2) {
+				this.jugador1.incrementarSets();
+				this.reiniciarJuegos();
+			} else {
+				if(this.jugador1.getJuegos() > 4 
+					&& this.jugador2.getJuegos() > 4 
+					&& this.comprobarDiferenciaJuegos() != 2) {
+					this.jugador1.incrementarJuegos();
+				} else {
+				
+					if(this.jugador1.getJuegos() == this.jugador2.getJuegos() 
+							&& this.jugador1.getJuegos() == 6) {
+						this.tie = true;
+						//FALTA FUNCIONALIDAD TIE
+					} else {
+						if(this.jugador1.getJuegos() < 5 && this.jugador2.getJuegos() < 5) {
+							this.jugador1.incrementarJuegos();
+						}
+					}
+				}
+			}
+		}
+		if(this.jugador1.getJuegos() == 7) {
+			this.reiniciarJuegos();
+			this.jugador1.incrementarSets();
+		}
 	}
 	public void incrementarJuegosJug2() {
-		this.jugador2.incrementarJuegos();
+		if(this.jugador2.getJuegos() == 5 && this.jugador1.getJuegos() < 5) {
+			this.jugador2.incrementarSets();
+			this.reiniciarJuegos();
+		} else {
+			if(this.jugador1.getJuegos() > 4 
+					&& this.jugador2.getJuegos() > 4 
+					&& this.comprobarDiferenciaJuegos() == 2) {
+				this.jugador2.incrementarSets();
+				this.reiniciarJuegos();
+			} else {
+				if(this.jugador1.getJuegos() > 4 
+					&& this.jugador2.getJuegos() > 4 
+					&& this.comprobarDiferenciaJuegos() != 2) {
+					this.jugador2.incrementarJuegos();
+				} else {
+				
+					if(this.jugador1.getJuegos() == this.jugador2.getJuegos() 
+							&& this.jugador2.getJuegos() == 6) {
+						this.tie = true;
+						//FALTA FUNCIONALIDAD TIE
+					} else {
+						if(this.jugador1.getJuegos() < 5 && this.jugador2.getJuegos() < 5) {
+							this.jugador2.incrementarJuegos();
+						}
+					}
+				}
+			}
+		}
+		if(this.jugador2.getJuegos() == 7) {
+			this.reiniciarJuegos();
+			this.jugador2.incrementarSets();
+		}
 	}
 	
-	public int getJuegosJug1() {
+	public int comprobarDiferenciaJuegos() {
+		return Math.abs(this.jugador1.getJuegos() - this.jugador2.getJuegos());
+	}
+	
+	public int proxyGetJuegosJug1() {
 		return this.jugador1.getJuegos();
 	}
 	
-	public int getJuegosJug2() {
+	public int proxyGetJuegosJug2() {
 		return this.jugador2.getJuegos();
 	}
 	
@@ -116,19 +186,19 @@ public class Marcador {
 		this.jugador2.reiniciarSets();
 	}
 	
-	public int getSetsJug1() {
+	public int proxyGetSetsJug1() {
 		return this.jugador1.getSets();
 	}
 	
-	public int getSetsJug2() {
+	public int proxyGetSetsJug2() {
 		return this.jugador2.getSets();
 	}
 	
-	public void setVentaja(int valor) {
+	public void proxySetVentaja(int valor) {
 		this.ventaja = valor;
 	}
 	
-	public int getVentaja() {
+	public int proxyGetVentaja() {
 		return this.ventaja;
 	}
 }
