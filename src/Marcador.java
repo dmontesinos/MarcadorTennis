@@ -40,7 +40,8 @@ public class Marcador {
 				} else {
 					if(this.ventaja == 1) {
 						this.incrementarJuegosJug1();
-						this.jugador1.reiniciarPuntos();
+						this.reiniciarPuntuacion();
+						this.ventaja = 0;
 					} else {
 						this.ventaja = 0;
 					}
@@ -59,23 +60,27 @@ public class Marcador {
 				this.reiniciarJuegos();
 				this.reiniciarTIE();
 			} else {
-				if(this.jugador1.getPuntosTIE() > 5 
-						&& this.jugador2.getPuntosTIE() > 5 
-						&& this.comprobarDiferenciaJuegosTIE() == 2) {
-					this.incrementarSetsJug1();
+				if(this.jugador1.getPuntosTIE() > 4 
+					&& this.jugador2.getPuntosTIE() > 4 
+					&& this.comprobarDiferenciaJuegosTIE() != 2) {
+					this.jugador1.incrementarTIE();
 				} else {
-					if(this.jugador1.getPuntosTIE() > 4 
-						&& this.jugador2.getPuntosTIE() > 4 
-						&& this.comprobarDiferenciaJuegosTIE() != 2) {
+					if(this.jugador1.getPuntosTIE() <= 5 && this.jugador2.getPuntosTIE() <= 5) {
 						this.jugador1.incrementarTIE();
-					} else {
-						if(this.jugador1.getPuntosTIE() <= 5 && this.jugador2.getPuntosTIE() <= 5) {
-							this.jugador1.incrementarTIE();
-						}
 					}
 				}
 			}
 			this.comprobarCambioDePistaTIE();
+			this.comprobarTieGanadoJug1();
+		}
+	}
+	
+	public void comprobarTieGanadoJug1() {
+		if(this.jugador1.getPuntosTIE() > 5 
+						&& this.jugador2.getPuntosTIE() > 5 
+						&& this.comprobarDiferenciaJuegosTIE() == 2) {
+			this.tie = false;
+			this.incrementarSetsJug1();
 		}
 	}
 	
@@ -87,7 +92,8 @@ public class Marcador {
 				} else {
 					if(this.ventaja == 2) {
 						this.incrementarJuegosJug2();
-						this.jugador2.reiniciarPuntos();
+						this.reiniciarPuntuacion();
+						this.ventaja = 0;
 					} else {
 						this.ventaja = 0;
 					}
@@ -101,7 +107,6 @@ public class Marcador {
 				}
 			}
 		} else {
-			//En caso de TIE entramos aquí
 			if(this.jugador2.getPuntosTIE() == 6 && this.jugador1.getPuntosTIE() < 6) {
 				this.jugador2.incrementarSets();
 				this.reiniciarJuegos();
@@ -110,6 +115,7 @@ public class Marcador {
 				if(this.jugador1.getPuntosTIE() > 5 
 						&& this.jugador2.getPuntosTIE() > 5 
 						&& this.comprobarDiferenciaJuegosTIE() == 2) {
+					this.tie = false;
 					this.incrementarSetsJug2();
 				} else {
 					if(this.jugador1.getPuntosTIE() > 4 
@@ -124,8 +130,17 @@ public class Marcador {
 				}
 			}
 			this.comprobarCambioDePistaTIE();
+			this.comprobarTieGanadoJug2();
 		}
-		
+	}
+	
+	public void comprobarTieGanadoJug2() {
+		if(this.jugador1.getPuntosTIE() > 5 
+						&& this.jugador2.getPuntosTIE() > 5 
+						&& this.comprobarDiferenciaJuegosTIE() == 2) {
+			this.tie = false;
+			this.incrementarSetsJug2();
+		}
 	}
 	
 	public boolean comprobarPuntosIguales() {
