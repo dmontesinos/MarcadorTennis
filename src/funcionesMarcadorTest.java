@@ -10,22 +10,22 @@ class funcionesMarcadorTest {
 		miMarcadorTest.incrementarPuntosJug1(); //15
 		miMarcadorTest.incrementarPuntosJug2(); //15
 		miMarcadorTest.incrementarPuntosJug2(); //30
-		assertEquals(15, miMarcadorTest.getPuntosJug1());
-		assertEquals(30, miMarcadorTest.getPuntosJug2());
+		assertEquals(15, miMarcadorTest.proxyGetPuntosJug1());
+		assertEquals(30, miMarcadorTest.proxyGetPuntosJug2());
 		
 		miMarcadorTest.incrementarPuntosJug2(); //40
-		assertEquals(40, miMarcadorTest.getPuntosJug2());
+		assertEquals(40, miMarcadorTest.proxyGetPuntosJug2());
 		assertEquals(0, miMarcadorTest.proxyGetVentaja()); //No hay ventaja porque no hay empate
 		miMarcadorTest.incrementarPuntosJug2(); //Punto
-		assertEquals(0, miMarcadorTest.getPuntosJug1()); //Reiniciado
-		assertEquals(0, miMarcadorTest.getPuntosJug2()); //Reiniciado
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug1()); //Reiniciado
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug2()); //Reiniciado
 		assertEquals(1, miMarcadorTest.proxyGetJuegosJug2()); //+1 Punto Jug2
 		
 		miMarcadorTest.incrementarPuntosJug1(); //15
 		miMarcadorTest.incrementarPuntosJug1(); //30
 		miMarcadorTest.incrementarPuntosJug1(); //40
 		miMarcadorTest.incrementarPuntosJug1(); //Punto
-		assertEquals(0, miMarcadorTest.getPuntosJug1()); //Reiniciado
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug1()); //Reiniciado
 		assertEquals(1, miMarcadorTest.proxyGetJuegosJug1()); //+1 Punto Jug1
 	}
 	
@@ -46,11 +46,11 @@ class funcionesMarcadorTest {
 	@Test
 	void reiniciarPuntuacion() {
 		miMarcadorTest.incrementarPuntosJug1();
-		assertEquals(15, miMarcadorTest.getPuntosJug1());
-		assertEquals(0, miMarcadorTest.getPuntosJug2());
+		assertEquals(15, miMarcadorTest.proxyGetPuntosJug1());
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug2());
 		miMarcadorTest.reiniciarPuntuacion();
-		assertEquals(0, miMarcadorTest.getPuntosJug1());
-		assertEquals(0, miMarcadorTest.getPuntosJug2());
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug1());
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug2());
 	}
 	
 	@Test
@@ -96,9 +96,9 @@ class funcionesMarcadorTest {
 			miMarcadorTest.incrementarPuntosJug2();
 		}
 
-		assertEquals(40, miMarcadorTest.getPuntosJug1());
-		assertEquals(40, miMarcadorTest.getPuntosJug2());
-		assertEquals(miMarcadorTest.getPuntosJug1(), miMarcadorTest.getPuntosJug2());
+		assertEquals(40, miMarcadorTest.proxyGetPuntosJug1());
+		assertEquals(40, miMarcadorTest.proxyGetPuntosJug2());
+		assertEquals(miMarcadorTest.proxyGetPuntosJug1(), miMarcadorTest.proxyGetPuntosJug2());
 		miMarcadorTest.incrementarPuntosJug1();
 		assertEquals(1, miMarcadorTest.proxyGetVentaja());
 		miMarcadorTest.incrementarPuntosJug2();
@@ -112,11 +112,11 @@ class funcionesMarcadorTest {
 		miMarcadorTest.incrementarPuntosJug1();
 		miMarcadorTest.incrementarPuntosJug2(); //15
 		miMarcadorTest.incrementarPuntosJug2(); //30
-		assertEquals(15, miMarcadorTest.getPuntosJug1());
-		assertEquals(30, miMarcadorTest.getPuntosJug2());
+		assertEquals(15, miMarcadorTest.proxyGetPuntosJug1());
+		assertEquals(30, miMarcadorTest.proxyGetPuntosJug2());
 		
 		miMarcadorTest.incrementarPuntosJug2(); //40
-		assertEquals(40, miMarcadorTest.getPuntosJug2());
+		assertEquals(40, miMarcadorTest.proxyGetPuntosJug2());
 		miMarcadorTest.incrementarPuntosJug2(); //Punto
 		assertEquals(0, miMarcadorTest.proxyGetVentaja());
 		assertEquals(1, miMarcadorTest.proxyGetJuegosJug2());
@@ -169,8 +169,8 @@ class funcionesMarcadorTest {
 		
 		miMarcadorTest.incrementarJuegosJug1();
 		miMarcadorTest.incrementarJuegosJug1();
-		assertEquals(0, miMarcadorTest.getPuntosJug1());
-		assertEquals(0, miMarcadorTest.getPuntosJug2());
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug1());
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug2());
 		assertEquals(1, miMarcadorTest.proxyGetSetsJug1());
 	}
 	
@@ -186,28 +186,126 @@ class funcionesMarcadorTest {
 	}
 	
 	
+	@Test
+	void comprobarIncrementoSetsTIE() {
+		//Se fuerza el TIE y primero lo gana el jugador 1, posteriormente
+		//lo gana el jugador 2. Los sets finalizan en 1/1
+		for(int i =0; i<6; i++) {
+			miMarcadorTest.incrementarJuegosJug1();
+			miMarcadorTest.incrementarJuegosJug2();
+		}
+		
+		assertEquals(6, miMarcadorTest.proxyGetJuegosJug1());
+		assertEquals(6, miMarcadorTest.proxyGetJuegosJug2());
+		assertTrue(miMarcadorTest.getTie());
+		
+		for(int i = 0; i<6; i++) {
+			miMarcadorTest.incrementarPuntosJug1();
+		}
+		
+		assertEquals(6, miMarcadorTest.proxyGetJuegosTIEJug1());
+		miMarcadorTest.incrementarPuntosJug1();
+		
+		assertEquals(1, miMarcadorTest.proxyGetSetsJug1());
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug1());
+		assertEquals(0, miMarcadorTest.proxyGetJuegosJug1());
+		
+		assertEquals(0, miMarcadorTest.proxyGetSetsJug2());
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug2());
+		assertEquals(0, miMarcadorTest.proxyGetJuegosJug2());
+		
+		assertFalse(miMarcadorTest.getTie());
+		
+		for(int i =0; i<6; i++) {
+			miMarcadorTest.incrementarJuegosJug1();
+			miMarcadorTest.incrementarJuegosJug2();
+		}
+		
+		assertEquals(6, miMarcadorTest.proxyGetJuegosJug1());
+		assertEquals(6, miMarcadorTest.proxyGetJuegosJug2());
+		assertTrue(miMarcadorTest.getTie());
+		
+		for(int i = 0; i<6; i++) {
+			miMarcadorTest.incrementarPuntosJug2();
+		}
+		
+		miMarcadorTest.incrementarPuntosJug2();
+		
+		assertEquals(1, miMarcadorTest.proxyGetSetsJug1());
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug1());
+		assertEquals(0, miMarcadorTest.proxyGetJuegosJug1());
+		
+		assertEquals(1, miMarcadorTest.proxyGetSetsJug2());
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug2());
+		assertEquals(0, miMarcadorTest.proxyGetJuegosJug2());
+		
+		assertFalse(miMarcadorTest.getTie());
+		
+	}
 	
 	@Test
-	void comprobarIncrementoJuegosTIE() {
-		miMarcadorTest.incrementarJuegosJug1();
-		miMarcadorTest.incrementarJuegosJug2();
-		miMarcadorTest.incrementarJuegosJug1();
-		miMarcadorTest.incrementarJuegosJug2();
-		miMarcadorTest.incrementarJuegosJug1();
-		miMarcadorTest.incrementarJuegosJug2();
-		miMarcadorTest.incrementarJuegosJug1();
-		miMarcadorTest.incrementarJuegosJug2();
-		miMarcadorTest.incrementarJuegosJug1();
-		miMarcadorTest.incrementarJuegosJug2();
-		miMarcadorTest.incrementarJuegosJug1();
-		miMarcadorTest.incrementarJuegosJug2();
+	void comprobarIncrementoJuegoAJuego() {
+		for(int i=0; i<48; i++) {
+			miMarcadorTest.incrementarPuntosJug1();
+		}
 		
-		//assertEquals(6, miMarcadorTest.proxyGetJuegosJug2());
-		//assertEquals(6, miMarcadorTest.proxyGetJuegosJug2());
+		for(int i=0; i<24; i++) {
+			miMarcadorTest.incrementarPuntosJug2();
+		}
+		
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug1());
+		assertEquals(0, miMarcadorTest.proxyGetJuegosJug1());
+		assertEquals(2, miMarcadorTest.proxyGetSetsJug1());
+		
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug2());
+		assertEquals(0, miMarcadorTest.proxyGetJuegosJug2());
+		assertEquals(1, miMarcadorTest.proxyGetSetsJug2());
+	}
+	
+	@Test
+	void comprobarIncrementoTIEmediantePuntos(){
+		for(int i=0; i<20; i++) {
+			miMarcadorTest.incrementarPuntosJug1();
+		}
+		for(int i=0; i<20; i++) {
+			miMarcadorTest.incrementarPuntosJug2();
+		}
+		
+		
+		assertFalse(miMarcadorTest.getTie());
+		
+		for(int i=0; i<4; i++) {
+			miMarcadorTest.incrementarPuntosJug1();
+		}
+		for(int i=0; i<4; i++) {
+			miMarcadorTest.incrementarPuntosJug2();
+		}
+		for(int i=0; i<7; i++) {
+			miMarcadorTest.incrementarPuntosJug1();
+		}
+		
+		//Comprobación de Set+1 y reinicio de variables.
+		assertEquals(1, miMarcadorTest.proxyGetSetsJug1());
+		assertEquals(0, miMarcadorTest.proxyGetJuegosJug1());
+		assertEquals(0, miMarcadorTest.proxyGetJuegosJug2());
+		assertEquals(0, miMarcadorTest.proxyGetJuegosTIEJug1());
+		assertEquals(0, miMarcadorTest.proxyGetJuegosTIEJug2());
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug1());
+		assertEquals(0, miMarcadorTest.proxyGetPuntosJug2());
+		assertEquals(0, miMarcadorTest.proxyGetJuegosTIEJug1());
+		assertEquals(0, miMarcadorTest.proxyGetJuegosTIEJug2());
+		assertFalse(miMarcadorTest.getTie());
+	}
+	
+	@Test
+	void comprobacionFinalPartido() {
+		for(int i=0; i<18; i++) {
+			miMarcadorTest.incrementarJuegosJug1();
+		}
+		assertEquals(3, miMarcadorTest.proxyGetSetsJug1());
+		assertEquals(1,miMarcadorTest.getGanador());
 	}
 	
 	//@Test
-	void comprobarIncrementoSetsTIE() {
-		
-	}
+	//COMPROBAR CAMBIOS DE PISTA Y BANDO
 }

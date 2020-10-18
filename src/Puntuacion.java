@@ -1,14 +1,15 @@
-
 public class Puntuacion {
 	private int puntos;
 	private int juegos;
 	private int sets;
+	private int puntosTIE;
 	
 	
 	public Puntuacion() {
 		this.puntos = 0;
 		this.sets = 0;
 		this.juegos = 0;
+		this.puntosTIE = 0;
 	}
 	
 	public int getJuegos() {
@@ -28,6 +29,12 @@ public class Puntuacion {
 	}
 	public void setSets(int sets) {
 		this.sets = sets;
+	}
+	public int getPuntosTIE() {
+		return this.puntosTIE;
+	}
+	public void setPuntosTIE(int valor) {
+		this.puntosTIE = valor;
 	}
 	
 	public void incrementarPuntos() {
@@ -76,5 +83,13 @@ public class Puntuacion {
 	
 	public void reiniciarSets() {
 		this.sets = 0;
+	}
+	
+	public void incrementarTIE() {
+		this.puntosTIE += 1;
+	}
+	
+	public void reiniciarTIE() {
+		this.puntosTIE = 0;
 	}
 }
