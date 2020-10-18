@@ -6,15 +6,7 @@ public class Menu {
 		Marcador miMarcador = new Marcador();
 		Scanner sc = new Scanner(System.in);
 		int opcion = 0;
-		
-		for(int i=0; i<20; i++) {
-			miMarcador.incrementarPuntosJug1();
-		}
-		for(int i=0; i<20; i++) {
-			miMarcador.incrementarPuntosJug2();
-		}
-		
-		
+
 		while(miMarcador.getGanador() == 0) {
 			miMarcador.imprimirMarcador();
 			
