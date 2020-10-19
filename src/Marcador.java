@@ -14,6 +14,7 @@ public class Marcador {
 		this.ventaja = 0;
 		this.tie = false;
 		this.ganador = 0;
+		this.cambioPista = true;
 	}
 
 	public boolean getSacaJug1() {
@@ -56,7 +57,8 @@ public class Marcador {
 			}	
 		} else {
 			if(this.jugador1.getPuntosTIE() == 6 && this.jugador2.getPuntosTIE() < 6) {
-				this.jugador1.incrementarSets();
+				this.incrementarSetsJug1();
+				this.cambiarDePista();
 				this.reiniciarJuegos();
 				this.reiniciarTIE();
 			} else {
@@ -108,7 +110,7 @@ public class Marcador {
 			}
 		} else {
 			if(this.jugador2.getPuntosTIE() == 6 && this.jugador1.getPuntosTIE() < 6) {
-				this.jugador2.incrementarSets();
+				this.incrementarSetsJug2();
 				this.reiniciarJuegos();
 				this.reiniciarTIE();
 			} else {
@@ -158,13 +160,13 @@ public class Marcador {
 	
 	public void incrementarJuegosJug1() {
 		if(this.jugador1.getJuegos() == 5 && this.jugador2.getJuegos() < 5) {
-			this.jugador1.incrementarSets();
+			this.incrementarSetsJug1();
 			this.reiniciarJuegos();
 		} else {
 			if(this.jugador1.getJuegos() > 4 
 					&& this.jugador2.getJuegos() > 4 
 					&& this.comprobarDiferenciaJuegos() == 2) {
-				this.jugador1.incrementarSets();
+				this.incrementarSetsJug1();
 				this.cambiarDePista();
 				this.reiniciarJuegos();
 			} else {
@@ -188,13 +190,13 @@ public class Marcador {
 
 	public void incrementarJuegosJug2() {
 		if(this.jugador2.getJuegos() == 5 && this.jugador1.getJuegos() < 5) {
-			this.jugador2.incrementarSets();
+			this.incrementarSetsJug2();
 			this.reiniciarJuegos();
 		} else {
 			if(this.jugador1.getJuegos() > 4 
 					&& this.jugador2.getJuegos() > 4 
 					&& this.comprobarDiferenciaJuegos() == 2) {
-				this.jugador2.incrementarSets();
+				this.incrementarSetsJug2();
 				this.cambiarDePista();
 				this.reiniciarJuegos();
 			} else {
@@ -248,11 +250,11 @@ public class Marcador {
 	private void comprobarJuegoGanado() {
 		if(this.jugador1.getJuegos() == 7) {
 			this.reiniciarJuegos();
-			this.jugador1.incrementarSets();
+			this.incrementarSetsJug1();
 		}
 		if(this.jugador2.getJuegos() == 7) {
 			this.reiniciarJuegos();
-			this.jugador2.incrementarSets();
+			this.incrementarSetsJug2();
 		}
 	}
 	
@@ -293,6 +295,7 @@ public class Marcador {
 	}
 	
 	public void incrementarSetsJug1() {
+		this.cambiarDePista();
 		this.reiniciarJuegos();
 		this.reiniciarPuntuacion();
 		this.reiniciarTIE();
@@ -300,6 +303,7 @@ public class Marcador {
 	}
 	
 	public void incrementarSetsJug2() {
+		this.cambiarDePista();
 		this.reiniciarJuegos();
 		this.reiniciarPuntuacion();
 		this.reiniciarTIE();
@@ -393,8 +397,6 @@ public class Marcador {
 			System.out.println("Servicio del jugador 1");
 		} else {
 			System.out.println("Servicio del jugador 2");
-		}
-		
-		
+		}	
 	}
 }
